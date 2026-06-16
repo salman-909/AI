@@ -2226,12 +2226,13 @@ body.temporary-chat-mode #start-temp-chat-btn {
   .modal-overlay {
     padding: 12px;
     align-items: flex-end; /* slide up from bottom on mobile */
+    height: 100dvh; /* Force visible viewport bounds */
   }
 
   .modal-card {
     width: 100%;
     max-width: 100%;
-    max-height: 90dvh;
+    max-height: calc(100dvh - 24px - env(safe-area-inset-bottom, 0px));
     border-radius: 20px 20px 0 0;
     margin: 0;
     overflow-y: auto;
@@ -2250,7 +2251,7 @@ body.temporary-chat-mode #start-temp-chat-btn {
   }
 
   .modal-footer {
-    padding: 12px 18px 20px;
+    padding: 12px 18px calc(20px + env(safe-area-inset-bottom, 0px));
     flex-direction: column;
     gap: 8px;
   }
@@ -2373,7 +2374,7 @@ body.temporary-chat-mode #start-temp-chat-btn {
   /* Modal takes full screen on tiny phone */
   .modal-card {
     border-radius: 16px 16px 0 0;
-    max-height: 95dvh;
+    max-height: calc(100dvh - 12px - env(safe-area-inset-bottom, 0px));
   }
 
   .modal-body {
