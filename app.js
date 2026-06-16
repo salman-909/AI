@@ -237,7 +237,7 @@ async function loadStateFromStorage() {
 
 async function saveChatsToStorage() {
   try {
-    const nonTempChats = state.chats.filter(c => !c.temporary);
+    const nonTempChats = state.chats.filter(c => !c.temporary && c.messages.length > 0);
     localStorage.setItem('uncensored_ai_chats', JSON.stringify(nonTempChats));
 
     if (state.settings.syncUrl) {
@@ -472,6 +472,9 @@ function scrollToBottom() {
 // State Modification Operations
 // -------------------------------------------------------------
 function selectChat(chatId) {
+  // Purge any empty chats (except the one we are selecting) from state
+  state.chats = state.chats.filter(c => c.id === chatId || c.messages.length > 0 || c.temporary);
+
   // If selecting a normal chat and temporary chat mode is active, toggle it off
   if (state.isTemporaryChat && !chatId.startsWith('temp_')) {
     state.isTemporaryChat = false;
@@ -1061,10 +1064,21 @@ async function init() {
   updateBadgeStatus();
   renderChatsList();
   
-  if (state.activeChatId) {
+  const activeExists = state.chats.some(c => c.id === state.activeChatId);
+  if (state.activeChatId && activeExists) {
     selectChat(state.activeChatId);
   } else {
-    renderActiveChatMessages();
+    // Fallback to the latest saved chat, or show clean state
+    const savedChats = state.chats.filter(c => !c.temporary);
+    if (savedChats.length > 0) {
+      const sorted = [...savedChats].sort((a, b) => b.timestamp - a.timestamp);
+      selectChat(sorted[0].id);
+    } else {
+      state.activeChatId = null;
+      saveActiveChatIdToStorage();
+      renderChatsList();
+      renderActiveChatMessages();
+    }
   }
 }
 
