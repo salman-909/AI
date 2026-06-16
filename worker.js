@@ -1,5 +1,5 @@
 /**
- * Cloudflare Worker Backend - Uncensored AI Chats persistence & Auth gateway
+ * Cloudflare Worker Backend - Unchained AI Chats persistence & Auth gateway
  * 
  * To deploy this on Cloudflare:
  * 1. Create a Worker at dashboard.cloudflare.com.

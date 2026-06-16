@@ -1,5 +1,5 @@
 // -------------------------------------------------------------
-// Core Application Logic - Uncensored AI
+// Core Application Logic - Unchained AI
 // -------------------------------------------------------------
 
 // Default settings object
@@ -485,7 +485,9 @@ function selectChat(chatId) {
   saveActiveChatIdToStorage();
   renderChatsList();
   renderActiveChatMessages();
-  chatInput.focus();
+  if (window.innerWidth > 768) {
+    chatInput.focus();
+  }
 }
 
 function createNewChat() {
@@ -1348,7 +1350,9 @@ function startTemporaryChatSession() {
   
   // Render temporary layout block
   renderActiveChatMessages();
-  chatInput.focus();
+  if (window.innerWidth > 768) {
+    chatInput.focus();
+  }
 }
 
 function exitTemporaryChatSession() {
