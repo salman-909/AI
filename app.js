@@ -369,7 +369,7 @@ function renderChatsList() {
       
       // Close sidebar on mobile
       if (window.innerWidth <= 768) {
-        sidebar.classList.remove('open');
+        closeMobileSidebar();
       }
     });
 
@@ -911,11 +911,31 @@ memoryLimitInput.addEventListener('input', () => {
 });
 
 // Sidebar Toggles (Mobile Drawer / Desktop Collapsible)
+const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+
+function openMobileSidebar() {
+  sidebar.classList.add('open');
+  if (sidebarBackdrop) sidebarBackdrop.classList.add('active');
+  document.body.style.overflow = 'hidden'; // prevent body scroll when drawer open
+}
+
+function closeMobileSidebar() {
+  sidebar.classList.remove('open');
+  if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
 if (sidebarToggleBtn) {
   sidebarToggleBtn.addEventListener('click', () => {
     if (window.innerWidth <= 768) {
-      sidebar.classList.add('open');
+      openMobileSidebar();
     }
+  });
+}
+
+if (sidebarBackdrop) {
+  sidebarBackdrop.addEventListener('click', () => {
+    closeMobileSidebar();
   });
 }
 
@@ -925,7 +945,7 @@ if (sidebarCollapseBtn) {
       document.body.classList.add('sidebar-collapsed');
       localStorage.setItem('uncensored_ai_sidebar_collapsed', 'true');
     } else {
-      sidebar.classList.remove('open');
+      closeMobileSidebar();
     }
   });
 }
@@ -941,7 +961,7 @@ if (sidebarExpandBtn) {
 
 if (sidebarCloseBtn) {
   sidebarCloseBtn.addEventListener('click', () => {
-    sidebar.classList.remove('open');
+    closeMobileSidebar();
   });
 }
 
@@ -975,7 +995,7 @@ stopGenerationBtn.addEventListener('click', () => {
 newChatBtn.addEventListener('click', () => {
   createNewChat();
   if (window.innerWidth <= 768) {
-    sidebar.classList.remove('open');
+    closeMobileSidebar();
   }
 });
 
